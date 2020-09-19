@@ -176,3 +176,55 @@ import { SampleDirective } from "./path/to/SampleDirecitve";
 })
 export class AppModule {}
 ```
+
+## Pipes
+
+Pipes are very helpful. They allow us to create a class that takes any input and transform it to the desired ouput.
+Pipes in angular works the same way as Unix pipes programming paradigm. We mean that information can be passed from one process (pipe) to another in a chaine.
+
+The following is an example:
+
+```typescript
+@Pipe({
+  name: "my-special-pipe",
+})
+export class MySpecialPipe implements PipeTransform {
+  transform(value: string): string {
+    return `🅰️ [${value}]`;
+  }
+}
+```
+
+Pipes uses the @pipe annotation that behave the same way a component and directive decorators work. It provide the metadata related to the pipe class.
+The special part is that we need to implement an interface provided by the Angular framework. _PipeTransform_ is the interface that define a single method which is _transform(value: any, args?: any): any_.
+
+As you notice, the signature of the _transform_ method indicate that any type can be accepted.
+
+> pipes by default doesn't restrict a specific data type.
+
+To use the pipe you need to call it as follow:
+
+```html
+<p>{{{ 'some text' | my-special-pipe }}}</p>
+```
+
+Remember to import the pipe class in the its relative module and register it in the "declarations" attribute.
+
+Pipes can have parameter so its behavior can be customized.
+
+```typescript
+@Pipe({
+  name: "custom-pipe",
+})
+export class CustomPipe implements PipeTransform {
+  transform(value: string, numb: number): string {
+    return `[${numb}]: ${value}`;
+  }
+}
+```
+
+```html
+<p>{{{ 'some text' | my-special-pipe: { numb: 88 } }}}</p>
+```
+
+the first argument is set to the element with associate the pipe to. So, we need to specify the rest arguments as attributes of a JavaScript object.
