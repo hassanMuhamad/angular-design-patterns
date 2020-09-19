@@ -85,3 +85,94 @@ constructor (private sampleService: SampleService) {
     // your logic here...
 }
 ```
+
+## Directives
+
+Directives essentially interacting with a template and their related component by reading property and event bindings.
+
+The example below shows the usuage of directive that add styles to an element in the template.
+
+consider we have the following component.
+
+```typescript
+import { Component } from "@angular/core";
+
+@Component({
+  selector: "example",
+  templateUrl: "./example.component.html",
+  styleUrls: ["example.styles.css"], // adding css styles to our component
+})
+export class ExampleComponent {
+  constructor() {}
+}
+```
+
+You must notice the new attribute in the component annotation. the "styleUrls" represent an array of strings. each string is a path to a css stylesheet. In our case we have a single css file, so the array length is 1.
+
+"example.styles.css" will contain the following code.
+
+```css
+button.btn {
+  margin: 2em;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 5px;
+}
+```
+
+associated with following component template.
+
+```html
+<div class="container">
+  <button class="btn" ExampleDirective>Hover on me</button>
+</div>
+```
+
+this the implementation of the directive we talked about.
+
+```typescript
+import { Directive, ElementRef, Input, HostListener } from "@angular/core";
+
+@Directive({
+  selector: "[ExampleDirective]",
+})
+export class ExampleDirective {
+  @Input()
+  bgColor: string = "#28df99"; // 🟢
+
+  constructor(private element: ElementRef) {
+    this.element.nativeElement.style.backgroundColor = this.bgColor;
+  }
+
+  private highlight(color: string) {
+    this.element.nativeElement.style.backgroundColor = color;
+  }
+
+  @HostListener("mouseenter")
+  mouseEnterHandler() {
+    this.highlight("#fddb3a"); // 🟡
+  }
+
+  @HostListener("mouseleave")
+  mouseLeaveHandler() {
+    this.highlight("#ec0101"); // 🔴
+  }
+}
+```
+
+An essential step to make this work is to register the Directive in the specific module that contain our component. In our case, we will register the SampleDirective in the high-level module "app.module.ts". This make it available to all component accross the whole app. Remember, in other cases you would register your directive whithin child modules.
+
+```typescript
+// [app.module.ts]
+
+// other imports
+
+import { SampleDirective } from "./path/to/SampleDirecitve";
+
+@NgModule({
+  // other attributes...
+  declarations: [SampleDirective],
+  // 🚨 if there are other elements in the declarations don't delete them.
+})
+export class AppModule {}
+```
