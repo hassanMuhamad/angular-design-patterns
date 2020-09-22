@@ -22,9 +22,9 @@ class User {
 }
 ```
 
-During this part, we'll asume we have the User component showing above. This component have two private fields _fname_ and _lname_ associated with a _greeting_ method.
+During this part, we'll assume we have the User component showing above. This component has two private fields _fname_ and _lname_ associated with a _greeting_ method.
 
-Most of time, we get our users through a JSON API. So the its shape is likely to like this example.
+Most of the time, we get our users through a JSON API. So its shape is likely to be:
 
 ```json
 [{ "fname": "Hassan", "lname": "Muhamad" }]
@@ -43,9 +43,9 @@ You'll get an error saying _TypeError: userFromAPI.greeting is not a function_
 
 Sound weird, huh?
 
-Let's break down what happened. We have specify the type of our variable at the very early stage by telling Typescript compiler that it must be a User type. The reason no error was fired is that _JSON.parse( )_ method return _any_ type. So the conversion flow from _any_ to _User_ is possible. You'd end with an _Object_ instead of _User_. This situation highlight the fact that _Typescript types_ doesn't exist in _JavaScript_.
+Let's break down what happened. We have specified the type of our variable at the very early stage by telling the Typescript compiler that it must be a User type. The reason no error was fired is that _JSON.parse( )_ method return _any_ type. So the conversion flow from _any_ to _User_ is possible. You'd end with an _Object_ instead of _User_. This situation highlights the fact that _Typescript types_ doesn't exist in _JavaScript_.
 
-To solve this problem, we should duplicat the _map callback_ function every time we receive a JSON user.
+To solve this problem, we should duplicate the _map callback_ function every time we receive a JSON user.
 
 Hopefully, The _Factory pattern_ is here to save us. A Factory is used for objects without exposing the instantiation logic to the client.
 
@@ -64,7 +64,7 @@ export class UserFactory {
 }
 ```
 
-The example contains a _static_ method, named _buildUser_ that have a single parameter _\_json_. The method job is to extract values from the _\_json_ argument and use them to invoke the _User_ class constructor.
+The example contains a _static_ method, named _buildUser_ that has a single parameter _\_json_. The method job is to extract values from the _\_json_ argument and use them to invoke the _User_ class constructor.
 
 > All the methods of a Factory instance should be static.
 
