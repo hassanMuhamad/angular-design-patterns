@@ -69,3 +69,62 @@ The example contains a _static_ method, named _buildUser_ that has a single para
 > All the methods of a Factory instance should be static.
 
 A factory must encapsulate the creation of the dedicated object type. Nothing more.
+
+## Observer
+
+The Observer pattern job's is to allow an object, called the subject, to keep track of other objects states which we call observers.
+So if the subject state changes, every observer will be notified.
+
+We need an example to clearify the mechanism.
+
+PS: this example is written in pure TypeScript.
+
+```typescript
+interface Observer {
+  notify();
+}
+
+export default Observer;
+```
+
+We define an interface of the observer we will implement.
+
+```typescript
+class ExampleObserver implements Observer {
+  constructor(private name: string) {}
+
+  notify() {
+    console.log(`${this.name} notified.`);
+  }
+}
+
+export default ExampleObserver;
+```
+
+Now, we need to implement the subject class. This class will manage observers list.
+
+```typescript
+class Subject {
+  private observers: Array<Observer> = [];
+
+  attachObserver(_observer: Observer): void {
+    this.observers.push(_observer);
+  }
+
+  detachObserver(_observer: Observer): void {
+    let index: number = this.observers.indexOf(_observer);
+
+    if (index > -1) {
+      this.observers.splice(index, 1);
+    } else {
+      throw "Unknown Observer";
+    }
+  }
+
+  protected notifyObservers() {
+    for (let i = 0; i < this.observers.length; ++i) {
+      this.observers[i].notify();
+    }
+  }
+}
+```
