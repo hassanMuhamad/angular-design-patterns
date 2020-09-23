@@ -128,3 +128,115 @@ class Subject {
   }
 }
 ```
+
+Inside the example above, we have three methods:
+
+- attachObserver: the method job is to push a new observer into the _observers_ field.
+
+- detachObserver: remove an observer from the _observers_ list.
+
+- notifyObservers: this method will iterate the _observers_ list and invokes their notify method.
+
+The class below allow us to have an implementation of the mechanism.
+
+```typescript
+class MovieStore extends Subject {
+  private moviesList: Array<string> = [];
+
+  public addMovie(_movie: string) {
+    this.moviesList.push(_movie);
+    this.notifyObservers();
+  }
+}
+
+export default MovieStore;
+```
+
+In order to make the whole mechanism function correctly, we need to create;
+a Subject and an Observer.
+Then, we need to attech the Observer instance to the Subject instance and try to change the Subject state by invoking the _addMovie_ method.
+
+This can be done as showing in the code snippet below:
+
+```typescript
+let store: MovieStore = new MovieStore();
+
+let myObserver: ExampleObserver = new ExampleObserver("sample observer");
+
+store.attechObserver(myObserver);
+
+store.addMovie("pulp fiction");
+```
+
+Run the code and go to your console. You should get "sample observer notified.".
+
+### Unlock the full power of observable with TypeScript parameters
+
+The implementation we saw is the basic implementation of the observer pattern. It has some weak points such in order to knows if something has changed we need to iterate over all the subjects and runs a test between its current state and its previous one.
+
+A better approach is to modify the _notify_ method of the observer to get more details. As an example we could add optional parameters as the example shows:
+
+```typescript
+export interface Observer {
+  notify(value?: any, subject?: Subject);
+}
+
+export class ExampleObserver implements Observer {
+  constructor(private name: string) {}
+
+  notify(value?: any, subject?: Subject) {
+    consoloe.log(`${this.name} received ${value} from ${subject}`);
+  }
+}
+```
+
+This way the _notify_ method now accepts two optional parameters;
+
+- value: which indicate the new state of the _subject_ instance.
+
+- subject: a reference to the _Subject_ instance itself.
+
+This would be helpful if we need at a certain stage to differentiate between subjects.
+
+Another step is required. We need to change the Subject class and MovieStore a bit so they use the new _notify_ method.
+
+```typescript
+export class Subject {
+  private observers: Array<Observer> = [];
+
+  attachObserver(_observer: Observer): void {
+    this.observers.push(_observer);
+  }
+
+  detachObserver(_observer: Observer): void {
+    let index: number = this.observers.indexOf(_observer);
+
+    if (index > -1) {
+      this.observers.splice(index, 1);
+    } else {
+      throw "Unknown observer";
+    }
+  }
+
+  protected notifyObservers (value? any): void {
+    for (let i = 0; i < this.observers.length; ++i) {
+      this.observers[i].notify(value, this);
+    }
+  }
+}
+
+export class MovieStore extends Subject {
+  private movieList: Array<string> = [];
+
+  public addMovie (_movie: string) {
+    this.movieList.push(_movie);
+    this.notifyObservers(_movie);
+  }
+}
+```
+
+This implementation is more expressive than the previous one.
+
+Using this mechanism — _observer_ pattern for asynchronous programming — we ask for something, adn we don't need to wait during its processing. Instead we do a subscribe to the response event, so we get notified when the response comes.
+
+This pattern and mechanism is widely used in Angular. So its a good point to understand it.
