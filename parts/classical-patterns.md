@@ -72,10 +72,10 @@ A factory must encapsulate the creation of the dedicated object type. Nothing mo
 
 ## Observer
 
-The Observer pattern job's is to allow an object, called the subject, to keep track of other objects states which we call observers.
+The Observer pattern job is to allow an object, called the subject, to keep track of other objects states which we call observers.
 So if the subject state changes, every observer will be notified.
 
-We need an example to clearify the mechanism.
+We need an example to clarify the mechanism.
 
 PS: this example is written in pure TypeScript.
 
@@ -101,7 +101,7 @@ class ExampleObserver implements Observer {
 export default ExampleObserver;
 ```
 
-Now, we need to implement the subject class. This class will manage observers list.
+Now, we need to implement the subject class. This class will manage the observers' list.
 
 ```typescript
 class Subject {
@@ -137,7 +137,7 @@ Inside the example above, we have three methods:
 
 - notifyObservers: this method will iterate the _observers_ list and invokes their notify method.
 
-The class below allow us to have an implementation of the mechanism.
+The class below allows us to have an implementation of the mechanism.
 
 ```typescript
 class MovieStore extends Subject {
@@ -154,7 +154,7 @@ export default MovieStore;
 
 In order to make the whole mechanism function correctly, we need to create;
 a Subject and an Observer.
-Then, we need to attech the Observer instance to the Subject instance and try to change the Subject state by invoking the _addMovie_ method.
+Then, we need to attach the Observer instance to the Subject instance and try to change the Subject state by invoking the _addMovie_ method.
 
 This can be done as showing in the code snippet below:
 
@@ -172,9 +172,9 @@ Run the code and go to your console. You should get "sample observer notified.".
 
 ### Unlock the full power of observable with TypeScript parameters
 
-The implementation we saw is the basic implementation of the observer pattern. It has some weak points such in order to knows if something has changed we need to iterate over all the subjects and runs a test between its current state and its previous one.
+The implementation we saw is the basic implementation of the observer pattern. It has some weak points such as in order to know if something has changed we need to iterate over all the subjects and runs a test between its current state and its previous one.
 
-A better approach is to modify the _notify_ method of the observer to get more details. As an example we could add optional parameters as the example shows:
+A better approach is to modify the _notify_ method of the observer to get more details. As an example we could add optional parameters like the example shows:
 
 ```typescript
 export interface Observer {
@@ -192,7 +192,7 @@ export class ExampleObserver implements Observer {
 
 This way the _notify_ method now accepts two optional parameters;
 
-- value: which indicate the new state of the _subject_ instance.
+- value: which indicates the new state of the _subject_ instance.
 
 - subject: a reference to the _Subject_ instance itself.
 
@@ -237,6 +237,6 @@ export class MovieStore extends Subject {
 
 This implementation is more expressive than the previous one.
 
-Using this mechanism — _observer_ pattern for asynchronous programming — we ask for something, adn we don't need to wait during its processing. Instead we do a subscribe to the response event, so we get notified when the response comes.
+Using this mechanism — _observer_ pattern for asynchronous programming — we ask for something, and we don't need to wait during its processing. Instead, we do a subscribe to the response event, so we get notified when the response comes.
 
-This pattern and mechanism is widely used in Angular. So its a good point to understand it.
+This pattern and mechanism are widely used in Angular. So it's a good point to understand it.
