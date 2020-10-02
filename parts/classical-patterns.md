@@ -240,3 +240,16 @@ This implementation is more expressive than the previous one.
 Using this mechanism — _observer_ pattern for asynchronous programming — we ask for something, and we don't need to wait during its processing. Instead, we do a subscribe to the response event, so we get notified when the response comes.
 
 This pattern and mechanism are widely used in Angular. So it's a good point to understand it.
+
+## Promises
+
+In addition to the Observable, the promise is another useful asynchronous concept. It function the same way as the _Observer_:
+process something and, asynchronously, notify the caller that an answer is available.
+
+### When we shall use Observer and Promise?
+
+There is one thing the _Observer_ pattern can allow, the _Promise_ can not. It is the ability to _unsubscrube_. So, if you are not willing to unsubscribe to an event, you are better off using _Promise_.
+
+### Promise usage
+
+A possible way to use _Promise_ is through the _fork/join paradigm_. indeed, it is possible to launch many processes (named fork) and wait for all the promises to complete before sending the aggregated result to the caller (named join).
