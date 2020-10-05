@@ -50,3 +50,17 @@ A big part of the developers community think that these many layers and the fact
 The dual model-view-controller is not the only concern. Another problem we must talk about is the frontend models will not be pure models as they must account for variables regarding the UI itself. Hence, your frontend models tend to become hideous blobs of code where UI variables rub shoulders with the actual representation of your user.
 
 Knowing these problems is important. So you can avoid them and harness the advantages of the MVC design pattern.
+
+### Angular's Model-View-Controller
+
+During this section, we will dive into the MVC architecture of Angular. The features we will discuss related to the web version or the mobile applications are the same and work in the same way. What changes are the views and the navigation schema.
+
+The diagram below shows the overall architecture:
+
+![Model-View-Controller-Overall-Architecture](../figures/overall-mvc-architecture.png)
+
+As show in the figure above, Starting from top to bottom, we have the backend, the reusable pieces of the frontend, the specialized frontend (mobile of web).
+
+In the backend, we kept the classical MVC.
+
+> Note: Implmenting MVC at the frontend does not mean you can't have a non-MVC backend.
